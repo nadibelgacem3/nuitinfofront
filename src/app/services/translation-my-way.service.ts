@@ -1,0 +1,253 @@
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
+
+// import fr from '../../assets/i18n-table/fr.json';
+// import en from '../../assets/i18n-table/en.json';
+// import ar from '../../assets/i18n-table/ar.json';
+
+
+export class TranslationSet {
+    public languange: string;
+    public values: { [key: string]: string } = {};
+}
+
+@Injectable({
+    providedIn: 'root',
+})
+export class TranslationMyWayService {
+    public languages = ['en', 'fr', 'ar'];
+
+    public language = 'en';
+
+    private dictionary: { [key: string]: TranslationSet } = {
+        en: {
+            languange: 'en',
+            values: {
+                alert : "Alert",
+                payment_delete: "are you sure you want to delete the payment ?",
+                reference: "Reference",
+                product: "Product",
+                qty: "Quantity",
+                date_v2 : "Date",
+                note: "Note",
+                alert_add : "Added successfully",
+                alert_update: "Successfully modified",
+                alert_convert : "Successfully converted",
+                alert_delete: "Successfully deleted",
+                cin : "CIN",
+                first_name: "First Name",
+                last_name: "Last Name",
+                email: "E-mail",
+                phone: "phone",
+                fax: "Fax",
+                example: 'Beispiel',
+                title_delete: "Are you sure?",
+                sendEmail: "Do you want to send an email?",
+                rebalance_stock : "want to rebalance the stock ?",
+                user_delete: "are you sure you want to delete this user ?",
+                product_update: "are you sure you want to update this product ?",
+                product_add: "are you sure you want to add this product ?",
+                variant_delete: "This variant did not delete because there is a relation with inventory  or billing ",
+                variant_bill_delete: "This variant did not delete because there is a relation with billing or inventory",
+                product_item_delete: "This product did not delete because there is a relation with inventory or billing ",
+                product_item_bill_delete: "This product did not delete because there is a relation with billing or inventory",
+                product_delete: "Are you sure you want to delete this article?",
+                invoice_delete: "Are you sure you want to delete this invoice?",
+                credit_delete: "Are you sure you want to delete this credit?",
+                command_delete: "Are you sure you want to delete this command?",
+                quote_delete: "Are you sure you want to delete this quote?",
+                bon_sale_delete: "Are you sure you want to delete this release note?",
+                bon_purchase_delete: "Are you sure you want to delete this  release note?",
+                shipping_validate: "This delivery will be validated",
+                shipping_refused: "This delivery will be refused",
+                delivery_delete: "are you sure you want to delete this  delivery note?",
+                invoice_validate: "This invoice will be validated",
+                command_validate: "This command will be validated",
+                command_convert: "This command will be converted to a command received",
+                quote_validate: "This quote will be validated",
+                credit_validate: "This quote will be validated",
+                bon_sale_validate: "This  release note  will be validated",
+                bon_purchase_validate: "This  release note  will be validated",
+                delivery_validate: "This delivery note will be validated",
+                category_delete: "are you sure you want to delete this category?",
+                raison_delete: "This object was not deleted because there is a relationship with the other object",
+                subcategory_delete: "are you sure you want to delete the subcategory ?",
+                mark_delete: "are you sure you want to delete this mark?",
+                provider_delete: "are you sure you want to delete this provider?",
+                customer_delete: "are you sure you want to delete this customer?",
+                shipping_deleted: "are you sure you want to delete this shipping?",
+                inventory_delete : "are you sure you want to delete this inventory?",
+                slide_deleted: "are you sure you want to delete this Slide?",
+                bloc_deleted: "are you sure you want to delete this Bloc?",
+                confirmText5: 'Your bloc has been deleted.',
+                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText_2: 'Yes',
+                noButtonText: 'No',
+                confirmText2: 'Your customer has been deleted.',
+                confirmText3: 'Your shipping has been deleted.',
+                confirmText4: 'Your Slide has been deleted.',
+                deleted: 'Deleted!',
+                image_required: 'Image required!'
+            },
+        },
+        fr: {
+            languange: 'fr',
+            values: {
+                alert : "Alert",
+                product: "Produit",
+                qty: "Quantité",
+                reference: "Référence",
+                date_v2 : "Date",
+                note: "Note",
+                sendEmail: "Voulez-vous envoyer un e-mail?",
+                alert_add : "Ajouté avec succès",
+                alert_convert : "Converti avec succès",
+                credit_validate: "Cette avoir sera validée",
+                credit_delete: "êtes-vous sûr de vouloir supprimer cette avoir?",
+                payment_delete: "êtes-vous sûr de vouloir supprimer ce paiement?",
+                invoice_validate: "Cette facture sera validée",
+                command_validate: "Cette commande sera validée",
+                shipping_refused: "Cette livraison sera refusée",
+                shipping_validate: "Cette livraison sera validée",
+                quote_validate: "Cette devis sera validée",
+                bon_sale_validate: "Ce bon sortie sera validée",
+                bon_purchase_validate: "Ce bon réception sera validée",
+                delivery_validate: "Ce bon de livraison sera validée",
+                rebalance_stock : "Voulez-vous rééquilibrer le stock ?",
+                command_convert: "Cette commande sera convertie en une commande reçue",
+                raison_delete: "Cette objet n'a pas été supprimée car il existe une relation avec l'autre objet",
+                user_delete: "Êtes-vous sûr de vouloir supprimer cet utilisateur?",
+                product_update: "Êtes-vous sûr de vouloir modifier cet article?",
+                product_add: "Êtes-vous sûr de vouloir ajouter cet article?",
+                variant_delete: "Cette variante n'a pas été supprimée car il y a une relation avec l'inventaire ou la facturation ",
+                variant_bill_delete: "Cette variante n'a pas été supprimée car il existe une relation avec la facturation ou l'inventaire",
+                product_item_delete: "Cette produit n'a pas été supprimée car il y a une relation avec l'inventaire ou la facturation",
+                product_item_bill_delete: "Cette produit n'a pas été supprimée car il existe une relation avec la facturation ou l'inventaire",
+                invoice_delete: "Êtes-vous sûr de vouloir supprimer cette facture?",
+                command_delete: "Êtes-vous sûr de vouloir supprimer cette commande?",
+                quote_delete: "Êtes-vous sûr de vouloir supprimer ce devis?",
+                bon_sale_delete: "Êtes-vous sûr de vouloir supprimer cette bon sortie?",
+                bon_purchase_delete: "Êtes-vous sûr de vouloir supprimer  cette bon réception?",
+                delivery_delete: "Êtes-vous sûr de vouloir supprimer cette bon livraison?",
+                category_delete: "Êtes-vous sûr de vouloir supprimer cette catégoire?",
+                subcategory_delete: "Êtes-vous sûr de vouloir supprimer la sous-catégoire ?",
+                mark_delete: "Êtes-vous sûr de vouloir supprimer cette marque?",
+                product_delete : "Êtes-vous sûr de vouloir supprimer cet article?",
+                inventory_delete : "Êtes-vous sûr de vouloir supprimer cet inventaire?",
+                alert_update : "Modifié avec succès",
+                alert_delete : "Supprimé avec succès",
+                example: 'Example',
+                cin : "CIN",
+                first_name: "Nom",
+                last_name: "Prénom",
+                email: "E-mail",
+                date: "Date de naissance",
+                phone: "Téléphone",
+                fax: "Fax",
+                title_delete: "Êtes-vous sûr?",
+                provider_delete:  "êtes-vous sûr de vouloir supprimer ce fournisseur?",
+                customer_delete: "êtes-vous sûr de vouloir supprimer ce client?",
+                shipping_deleted: "êtes-vous sûr de vouloir supprimer ce livraison ?",
+                slide_deleted: "êtes-vous sûr de vouloir supprimer ce Slide ?",
+                bloc_deleted: "tes-vous sûr de vouloir supprimer ce Bloc ?",
+                confirmButtonText: 'Oui, supprimez-le!',
+                noButtonText: 'Non',
+                confirmText2: 'Votre client a été supprimé.',
+                confirmText3: 'Votre livraison a été supprimé.',
+                confirmText4: 'Votre Slide a été supprimé.',
+                confirmText5: 'Votre bloc a été supprimé.',
+                confirmButtonText_2: 'Oui',
+                deleted: 'Supprimé!!',
+                image_required: 'Image obligatoire!'
+            },
+        },
+        ar: {
+            languange: 'ar',
+            values: {
+                alert : "تنبيه",
+                product: "المنتج",
+                qty: "الكمية",
+                reference: "المرجع",
+                date_v2 : "التاريخ",
+                note: "الملاحظة",
+                sendEmail: "هل تريد ارسال بريد الكتروني؟",
+                alert_add : "تمت الإضافة بنجاح",
+                credit_validate: "سيتم التحقق من صحة هذا وصل الإسترجاع",
+                credit_delete: "هل أنت متأكد أنك تريد حذف وصل الإسترجاع؟",
+                alert_convert : "تم تحويلها بنجاح",
+                payment_delete: "هل أنت متأكد أنك تريد حذف الدفع؟" ,
+                invoice_validate: "سيتم التحقق من صحة هذه الفاتورة" ,
+                command_validate: "سيتم التحقق من صحة هذا وصل الإيداع" ,
+                shipping_refused: "سيتم رفض هذا التسليم",
+                quote_validate: "سيتم التحقق من صحة هذا فاتورة الأولية" ,
+                bon_sale_validate: "سيتم التحقق من صحة هذا وصل الخروج" ,
+                bon_purchase_validate: "سيتم التحقق من صحة هذا وصل الدخول" ,
+                shipping_validate: "سيتم التحقق من صحة هذا الشحن",
+                delivery_validate: "سيتم التحقق من صحة هذا وصل التسليم " ,
+                rebalance_stock: "هل تريد تعديل في كمية المنتج ؟",
+                raison_delete: "لم يتم حذف هذا العنصر لوجود علاقة مع العنصر الآخر",
+                user_delete: "هل أنت متأكد أنك تريد حذف المستخدم؟" ,
+                product_update: "هل أنت متأكد أنك تريد تعديل هذا المنتج",
+                product_add: "هل أنت متأكد أنك تريد إضافة هذا المنتج",
+                command_convert: "سيتم تحويل هذا وصل إلى وصل إستلام",
+                inventory_delete : "هل أنت متأكد أنك تريد حذف هذا جرد المخزون",
+                variant_delete: "لم يتم حذف هذا المتغير لوجود علاقة بالمخزون أو الفواتير" ,
+                variant_bill_delete: "لم يتم حذف هذا المتغير بسبب وجود علاقة بالفوترة أو المخزون" ,
+                product_item_delete: "لم يتم حذف هذا المنتج لوجود علاقة بالمخزون أو الفواتير" ,
+                product_item_bill_delete: "لم يتم حذف هذا المنتج لوجود علاقة بالفوترة أو بالمخزون" ,
+                invoice_delete: "هل أنت متأكد أنك تريد حذف الفاتورة؟" ,
+                command_delete: "هل أنت متأكد أنك تريد حذف وصل الإيداع؟" ,
+                quote_delete: "هل أنت متأكد أنك تريد حذف فاتورة الأولية؟" ,
+                bon_sale_delete: "هل أنت متأكد أنك تريد حذف وصل الخروج؟" ,
+                bon_purchase_delete: "هل أنت متأكد أنك تريد حذف وصل الدخول؟",
+                Delivery_delete: "هل أنت متأكد أنك تريد حذف وصل التسليم؟",
+                category_delete: "هل أنت متأكد أنك تريد حذف الفئة؟" ,
+                subcategory_delete: "هل أنت متأكد أنك تريد حذف الفئة الفرعية؟",
+                mark_delete: "هل أنت متأكد أنك تريد حذف العلامة؟",
+                product_delete: "هل أنت متأكد أنك تريد حذف المنتج؟" ,
+                alert_update: "تم التعديل بنجاح",
+                alert_delete: "تم الحذف بنجاح",
+                example: 'مثال',
+                cin : "ب ت",
+                first_name: "الإ سم",
+                last_name: "اللقب",
+                email: "البريد الإلكتروني",
+                date: "تاريخ الميلاد",
+                phone: "الهاتف",
+                fax: "الفاكس",
+                title_delete: "هل أنت متأكد؟" ,
+                Provider_delete: "هل أنت متأكد أنك تريد حذف المزود؟" ,
+                customer_delete: "هل أنت متأكد أنك تريد حذف الزبون؟" ,
+                shipping_deleted: "هل أنت متأكد أنك تريد حذف الشحن؟" ,
+                slide_deleted:  "هل أنت متأكد أنك تريد حذف الجزء؟" ,
+                bloc_deleted: "هل أنت متأكد أنك تريد حذف الجزء؟" ,
+                confirmButtonText: "نعم ، احذفها!",
+                noButtonText: "لا" ,
+                ConfirmText2: "تم حذف زبونك.",
+                ConfirmText3: "تم حذف الشحن.",
+                confirmText4:  "تم حذف الجزء.",
+                confirmText5: "تم حذف الجزء.",
+                confirmButtonText_2: "نعم" ,
+                deleted: 'محذوف !!',
+                image_required: 'الصورة المطلوبة'
+            },
+        },
+    };
+
+
+    constructor(private http: HttpClient, public cookiesService: CookieService) {
+        this.language = localStorage.getItem('lang');
+    }
+
+
+    translate(key: string): string {
+        // this.language = this.cookiesService.get('lang');
+        this.language = localStorage.getItem('lang');
+
+        // this.language = cookie.getItem('lang');
+        if (this.dictionary[this.language] != null) {
+            return this.dictionary[this.language].values[key];
+        }
+    }
+}

@@ -1,0 +1,226 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Category</h5>
+                </div>
+                <div class="card-body">
+                    <div class="btn-popup pull-right">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-original-title="test"
+                            data-target="#exampleModal" (click)="open(content)">Add Category</button>
+                        <ng-template #content let-modal>
+                            <div class="modal-header">
+                                <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Category</h5>
+                                <button type="button" class="close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="needs-validation" [formGroup]="editForm">
+                                    <div class="form" >
+                                        <div class="form-group">
+                                            <label  class="mb-1">Category Name :</label>
+                                          <input type="text"    class="form-control" name="name" id="field_percentageValue"
+                                                 formControlName="name"/>
+                                          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                                            <small class="form-text text-danger"
+                                                   *ngIf="editForm.get('name')?.errors?.required" translate="entity.validation.required">
+
+                                            </small>
+
+                                          </div>
+                                        </div>
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label for="validationCustom02" class="mb-1">Category Image :</label>-->
+<!--                                            <input class="form-control" id="validationCustom02" type="file">-->
+<!--                                        </div>-->
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" [disabled]="editForm.invalid " (click)="saveCategory();modal.close()">Save</button>
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                                    (click)="modal.dismiss('Cross click')">Close</button>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div id="batchDelete" class="category-table custom-datatable">
+                      <div class="table-responsive card" *ngIf="Categories_DATA?.length > 0"
+                           style="height: 500px;  overflow: auto;">
+
+                        <table id="basic-datatable"
+                               class="table  dt-responsive nowrap  no-footer  border-bottom">
+                          <!--                                        <thead class="bg-light">-->
+                          <!--                                        <tr>-->
+                          <!--                                            <th></th>-->
+                          <!--                                            <th></th>-->
+
+                          <!--                                            <th class="text-center" >{{'name'  | translate}}</th>-->
+
+                          <!--                                            <th  class="text-right">{{'action.actions'  | translate}}</th>-->
+                          <!--                                        </tr>-->
+                          <!--                                        </thead>-->
+                          <tbody *ngFor="let cat of Categories_DATA; let i = index ">
+                          <tr>
+                            <td align="center" (click)="onView(cat, i)">
+                              <a class="expand-row mt-2">
+                                <i class=" fa fa-angle-down"></i>
+                              </a>
+                            </td>
+                            <td (click)="onView(cat, i)" style="width: 7%" class="border-left text-center">
+                              <div class="avatar-xs" *ngIf="!cat.image">
+                                <div class="avatar-title rounded-circle bg-light">
+                                  <img src="assets/images/logos/Basic.png"
+                                       alt="" height="40">
+                                </div>
+                              </div>
+                              <div class="avatar-xs" *ngIf="cat.image">
+                                <div class="avatar-title rounded-circle bg-light">
+                                  <img [src]="cat.image"
+                                       alt="" height="25">
+                                </div>
+                              </div>
+                            </td>
+
+                            <td (click)="onView(cat, i)"  style="width: 35%">
+                              <h6 class="font-size-14 text-truncate mt-2">
+                                {{ cat.name }}</h6>
+
+                            </td>
+
+                            <td>
+                              <div class="row justify-content-end">
+                                <div class="buttons-row btn-group text-center center ">
+                                  <button (click)="onAddSubCat(addSubCat,cat)"
+                                          class="   float-right btn-sm btn btn-outline-success">
+                                    <!--                                                            <i class="mdi mdi-plus mr-2"></i>-->
+                                    <span class="item-button">{{'add subcategory' }}</span></button>
+                                  <!--                                                    <button *ngIf="!cat.isOpen"-->
+                                  <!--                                                            class="mr-1 float-right   btn btn-sm text-dark"-->
+                                  <!--                                                            placement="bottom-left"-->
+                                  <!--                                                            ngbTooltip="{{'action.view' | translate}}">-->
+                                  <!--                                                        <i class="mdi mdi-eye-off-outline font-size-16"></i>-->
+                                  <!--                                                    </button>-->
+                                  <!--                                                    <button *ngIf="cat.isOpen"-->
+                                  <!--                                                            class="mr-1 float-right   btn btn-sm text-dark"-->
+                                  <!--                                                            placement="bottom-left"-->
+                                  <!--                                                            ngbTooltip="{{'action.view' | translate}}">-->
+                                  <!--                                                        <i class="mdi mdi-eye-outline font-size-16"></i></button>-->
+                                  <!--                                                        <button (click)="onEdit(cat,editCat)"-->
+                                  <!--                                                                class=" float-right   btn btn-sm text-primary"-->
+                                  <!--                                                                placement="bottom-left"-->
+                                  <!--                                                                ngbTooltip="{{'action.edit' | translate}}">-->
+                                  <!--                                                            <i class="mdi mdi-pencil font-size-16"></i></button>-->
+                                  <button (click)="onDelete(cat)"
+                                          class="float-right text-danger btn btn-sm"
+                                      >
+                                    <i class="fa fa-trash font-size-18 mt-2"></i>
+                                  </button>
+
+
+
+
+                                </div>
+                              </div>
+
+
+                            </td>
+                          </tr>
+                          <tr *ngIf="!cat.isOpen" class="sub-table no-bg">
+                            <td align="center"></td>
+                            <td colspan="15" class="p-0">
+                              <table class="table mb-0 ">
+
+                                <tbody>
+                                <tr *ngFor="let subCat of cat.articleSubCategories"
+                                    class="td-class">
+                                  <td class="border-left">
+                                    <div class="avatar-xs" *ngIf="!subCat.image">
+<!--                                      <div class="avatar-title rounded-circle bg-light">-->
+<!--                                        <img src="assets/images/logos/product.png"-->
+<!--                                             alt="" height="40" width="60">-->
+<!--                                      </div>-->
+                                    </div>
+                                    <div class="avatar-xs" *ngIf="subCat.image">
+                                      <div class="avatar-title rounded-circle bg-light">
+                                        <img [src]="subCat.image"
+                                             alt="" height="40" >
+                                      </div>
+                                    </div>
+                                  </td>
+
+                                  <td style="width: 50%">
+                                    <h6 class="font-size-14 text-truncate mt-1">
+                                      {{ subCat.name }}</h6>
+                                  </td>
+
+
+                                  <td>
+                                    <div class="buttons-row text-center center ">
+
+                                      <a (click)="onDeleteSubCat(cat,subCat)"
+                                         class="float-right text-danger"
+                                        >
+                                        <i class="fa fa-trash font-size-18 mt-2"></i></a>
+                                      <!--                                                                <a (click)="onEditSub(cat,subCat,editSubCat)"-->
+                                      <!--                                                                   class="mr-3 float-right text-primary"-->
+                                      <!--                                                                   placement="bottom-right"-->
+                                      <!--                                                                   ngbTooltip="{{'action.edit' | translate}}">-->
+                                      <!--                                                                    <i class="mdi mdi-pencil font-size-18"></i></a>-->
+                                    </div>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->
+<ng-template #addSubCat class="col-md-12" let-data let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Sub Category</h5>
+    <button type="button" class="close" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="needs-validation" [formGroup]="editFormSub">
+      <div class="form" >
+        <div class="form-group">
+          <label  class="mb-1">Name :</label>
+          <input type="text"    class="form-control" name="name" id="field_percentageValue"
+                 formControlName="name"/>
+          <div *ngIf="editFormSub.get('name')!.invalid && (editFormSub.get('name')!.dirty || editFormSub.get('name')!.touched)">
+            <small class="form-text text-danger"
+                   *ngIf="editFormSub.get('name')?.errors?.required" translate="entity.validation.required">
+
+            </small>
+
+          </div>
+        </div>
+        <!--                                        <div class="form-group mb-0">-->
+        <!--                                            <label for="validationCustom02" class="mb-1">Category Image :</label>-->
+        <!--                                            <input class="form-control" id="validationCustom02" type="file">-->
+        <!--                                        </div>-->
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="editFormSub.invalid " (click)="saveSubCategory();modal.close()">Save</button>
+    <button class="btn btn-secondary" type="button" data-dismiss="modal"
+            (click)="modal.dismiss('Cross click')">Close</button>
+  </div>
+</ng-template>

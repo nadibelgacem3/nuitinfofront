@@ -1,0 +1,40 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h5>User Details</h5>
+    </div>
+    <div class="card-body">
+      <div class="btn-popup pull-right">
+        <a class="btn btn-secondary" [routerLink]="'/users/create-user'">Create User</a>
+      </div>
+      <div id="batchDelete" class="category-table custom-datatable transcation-datatable user-image">
+        <div class="table-responsive">
+          <!--                    <ng2-smart-table [settings]="settings" [source]="user_list"></ng2-smart-table>-->
+          <table id="basic-datatable"
+                 class="table table-bordered dt-responsive nowrap datatables no-footer dtr-inline"  aria-describedby="page-heading">
+            <thead>
+            <tr >
+              <th scope="col"    >First Name & Last Name</th>
+              <th scope="col" >Phone</th>
+              <th scope="col" >Email</th>
+              <th>Date Creation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tiers of user_list ;">
+
+              <td>{{tiers.firstName + ' '+ tiers.lastName}}</td>
+              <td> {{ tiers.phone}}</td>
+              <td>{{ tiers.email }}</td>
+              <td>{{tiers.dateCreation}}</td>
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
